@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,7 +31,33 @@ class NotesViewModel @Inject constructor(
     }
 
     fun onEvent(event: NotesEvent) {
-        
+        when (event) {
+            is NotesEvent.Order -> {
+                if (state.value.noteOrder::class == event.noteOrder::class &&
+                    state.value.noteOrder.orderType == event.noteOrder.orderType
+                ) return
+            }
+
+            is NotesEvent.DeleteNote -> {
+                viewModelScope.launch {
+                    noteUseCases.deleteNote(event.note)
+                    recentlyDeletedNote = event.note
+                }
+            }
+
+            NotesEvent.RestoreNote -> {
+                viewModelScope.launch {
+                    noteUseCases.addNote(recentlyDeletedNote ?: return@launch)
+                    recentlyDeletedNote = null
+                }
+            }
+
+            NotesEvent.ToggleOrderSection -> {
+                _state.value = state.value.copy(
+                    isOrderSectionVisible = !state.value.isOrderSectionVisible
+                )
+            }
+        }
     }
 
     private fun getNotes(noteOrder: NoteOrder) {
