@@ -37,8 +37,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.notes.feature_note.domain.model.Note
-import com.example.notes.feature_note.domain.util.NoteOrder
 import com.example.notes.feature_note.presentation.notes.components.NoteItem
 import com.example.notes.feature_note.presentation.notes.components.OrderSection
 import com.example.notes.feature_note.presentation.util.Screen
@@ -103,11 +101,6 @@ fun NotesScreen(
                 enter = fadeIn() + slideInVertically(),
                 exit = fadeOut() + slideOutVertically()
             ) {
-//                val noteOrder = remember<(NoteOrder) -> Unit> {
-//                    {
-//                        viewModel.onEvent(NotesEvent.Order(it))
-//                    }
-//                }
                 OrderSection(
                     modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
                     noteOrder = state.noteOrder,

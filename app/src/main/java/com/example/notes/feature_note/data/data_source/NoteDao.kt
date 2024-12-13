@@ -2,6 +2,8 @@ package com.example.notes.feature_note.data.data_source
 
 import androidx.room.Dao
 import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.notes.feature_note.domain.model.Note
@@ -16,7 +18,7 @@ interface NoteDao {
     @Query("SELECT * FROM note WHERE id = :id")
     suspend fun getNoteById(id: Int): Note?
 
-    @Upsert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertNote(note: Note)
 
     @Delete

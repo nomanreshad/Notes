@@ -35,7 +35,9 @@ class NotesViewModel @Inject constructor(
             is NotesEvent.Order -> {
                 if (state.value.noteOrder::class == event.noteOrder::class &&
                     state.value.noteOrder.orderType == event.noteOrder.orderType
-                ) return
+                ) {
+                    return
+                }
                 getNotes(event.noteOrder)
             }
 

@@ -7,9 +7,9 @@ sealed class NoteOrder(val orderType: OrderType) {
 
     fun copy(orderType: OrderType): NoteOrder {
         return when (this) {
-            is Color -> Color(orderType)
             is Date -> Date(orderType)
             is Title -> Title(orderType)
+            is Color -> Color(orderType)
         }
     }
 }
